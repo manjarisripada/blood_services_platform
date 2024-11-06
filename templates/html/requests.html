@@ -1,0 +1,52 @@
+{% extends 'html/base.html' %}
+{% block title %}Requests{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="card col-md-9 mx-auto shadow-lg">
+        <div class="card-body">
+            <h4>Requests Page</h4>
+            <table class="table"> 
+                <tr>
+                    <th>Sno</th>
+                    <th>Patient Name</th>
+                    <th>Blood Group</th>
+                    <th>Units Requested</th>
+                    <th>Applied On</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                {% for j in t %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{j.patient_name}}</td>
+                        <td>{{j.bloodgroup}}</td>
+                        <td>{{j.unit}}</td>
+                        <td>{{j.apldate}}</td>
+                        <td>
+                            {% if j.status == "g" %}
+								<p class="badge badge-warning">Pending</p>
+							{% elif j.status == "a" %}
+								<p class="badge badge-success">Approved</p>
+							{% else %}
+								<p class="badge badge-danger">Declined</p>
+							{% endif %}
+                        </td>
+                        <td>
+                            {% if i.status != 'a' and i.status != 'd' %}
+							<div class="row">
+								<div class="col">
+									 <a href="{% url 'ure' j.id %}" class="btn btn-outline-info form-control">Edit</a>
+								</div>
+								<div class="col">
+									<a href="{% url 'dlr' j.id %}" class="btn btn-outline-danger form-control">Delete</a>
+								</div>
+							</div>
+                            {% endif %}
+						</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

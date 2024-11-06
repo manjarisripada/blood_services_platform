@@ -1,0 +1,70 @@
+{% extends 'html/base.html' %}
+{% block title %}Request Page{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row mx-2">
+        <div class="col-md-3 card shadow-lg mr-2 h-100">
+            <div class="card-body">
+                <h4>Request page</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for i in z %}
+                        {{i}}
+                    {% endfor %}
+                    <div class="row my-2">
+                        <div class="col">
+                            <input type="reset" value="Clear" class="btn btn-outline-danger form-control">
+                        </div>
+                        <div class="col">
+                            <input type="submit" value="Place Request" class="btn btn-outline-success form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card col-md shadow-lg">
+            <div class="card-body">
+                <h4>List of requests</h4>
+                <table class="table">
+                    <tr>
+                        <th>Sno</th>
+                        <th>Patient Name</th>
+                        <th>Applied On</th>
+                        <th>Blood Group</th>
+                        <th>Units</th>
+                        <th>status</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for i in h %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.patient_name}}</td>
+                        <td>{{i.apldate}}</td>
+                        <td>{{i.bloodgroup}}</td>
+                        <td>{{i.unit}}</td>
+                        <td>
+                            {% if i.status == "g" %}
+								<p class="badge badge-warning">Pending</p>
+							{% elif i.status == "a" %}
+								<p class="badge badge-success">Approved</p>
+							{% else %}
+								<p class="badge badge-danger">Declined</p>
+							{% endif %}
+                        </td>
+                        <td>
+							{% if i.status != 'a' and i.status != 'd' %}
+							<div class="row">
+								<div class="col">
+									<a href="{% url 'dlr' i.id %}" class="btn btn-outline-danger form-control">Delete</a>
+								</div>
+							</div>
+							{% endif %}
+						</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
