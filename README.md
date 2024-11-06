@@ -1,0 +1,1 @@
+# blood_services_platform
